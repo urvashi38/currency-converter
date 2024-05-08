@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Currency Converter</h1>
+  <select name="Currency" id="fromMoney">
+    <option value="default">Select Currency</option>
+    <option value="USD">US Dollor</option>
+    <option value="EUR">Euro</option>
+    <option value="INR">Rupees</option>
+  </select>
+  <label for="Amount"> Enter Amount </label>
+  <input id="amountMoney" type="text" placeholder="">
+  <button id="btn"> Change </button>
+  <h2>Changed Amount</h2>
+  <p id="changedAmt"> </p>
+  <select name="Currency" id="toMoney">
+    <option value="default">Select Target </option>
+    <option value="USD">US Dollor</option>
+    <option value="EUR">Euro</option>
+    <option value="INR">Rupees</option>
+  </select>
+  
+
+  <script>
+    let from
+    let to
+    let amount
+    document.querySelector("#fromMoney").addEventListener("change",(event)=>{
+      from = event.target.value
+    })
+    document.querySelector("#toMoney").addEventListener("change",(event)=>{
+      to = event.target.value
+    })
+    document.querySelector("#amountMoney").addEventListener("change",(event)=>{
+      amount = event.target.value
+    })
+    
+    document.querySelector("#btn").addEventListener("click",async ()=>{
+      console.log("Started calling api");
+    const url = `https://currency-converter-pro1.p.rapidapi.com/convert?from=${from}&to=${to}&amount=${amount}`;
+    const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': 'e1c2d2fbefmsh1164ba775f83558p184f24jsna31385dd2ce3',
+        'X-RapidAPI-Host': 'currency-converter-pro1.p.rapidapi.com' 
+    }
+};
+
+      try {
+	      const response = await fetch(url, options);
+	      const result = await response.json();
+	      console.log(result.result);
+        document.querySelector("#changedAmt").innerHTML = result.result
+      } catch (error) {
+	        console.error(error);
+      }
+    console.log("api call end");
+    })
+  </script>
+</body>
+</html>
